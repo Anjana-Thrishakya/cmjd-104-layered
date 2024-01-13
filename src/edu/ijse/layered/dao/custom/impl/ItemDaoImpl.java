@@ -8,6 +8,7 @@ import edu.ijse.layered.dao.CrudUtil;
 import edu.ijse.layered.dao.custom.ItemDao;
 import edu.ijse.layered.entity.ItemEntity;
 import java.util.ArrayList;
+import java.sql.ResultSet;
 
 /**
  *
@@ -27,22 +28,44 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public boolean update(ItemEntity t) throws Exception {
-        return false;
+        return CrudUtil.executeUpdate("UPDATE Item SET Description=?, PackSize=?, UnitPrice=?, QtyOnHand=? WHERE ItemCode=?", 
+                t.getDescription(),
+                t.getPack(),
+                t.getUnitPrice(),
+                t.getQoh(),
+                t.getItemCode());
     }
 
     @Override
     public boolean delete(String id) throws Exception {
-        return false;
+        return CrudUtil.executeUpdate("DELETE FROM item WHERE ItemCode=?", id);
     }
 
     @Override
     public ItemEntity get(String id) throws Exception {
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Item WHERE ItemCode=?", id);
+        while (rst.next()) {            
+            return new ItemEntity(rst.getString("ItemCode"), 
+                    rst.getString("Description"), 
+                    rst.getString("PackSize"), 
+                    rst.getDouble("UnitPrice"), 
+                    rst.getInt("QtyOnHand"));
+        }
         return null;
     }
 
     @Override
     public ArrayList<ItemEntity> getAll() throws Exception {
-        return null;
+        ArrayList<ItemEntity> itemEntities = new ArrayList<>();
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Item");
+        while (rst.next()) {            
+            itemEntities.add( new ItemEntity(rst.getString("ItemCode"), 
+                    rst.getString("Description"), 
+                    rst.getString("PackSize"), 
+                    rst.getDouble("UnitPrice"), 
+                    rst.getInt("QtyOnHand")));
+        }
+        return itemEntities;
     }
 
 }
