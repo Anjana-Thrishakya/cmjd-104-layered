@@ -6,9 +6,11 @@ package edu.ijse.layered.view;
 
 import edu.ijse.layered.controller.ItemController;
 import edu.ijse.layered.dto.ItemDto;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,8 +24,10 @@ public class ItemVIew extends javax.swing.JFrame {
      * Creates new form ItemVIew
      */
     public ItemVIew() {
+        
         itemController = new ItemController();
         initComponents();
+        loadTable();
     }
 
     /**
@@ -52,7 +56,7 @@ public class ItemVIew extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblItem = new javax.swing.JTable();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -117,7 +121,7 @@ public class ItemVIew extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblItem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -128,7 +132,7 @@ public class ItemVIew extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblItem);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -256,12 +260,12 @@ public class ItemVIew extends javax.swing.JFrame {
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblDesc;
     private javax.swing.JLabel lblItemCode;
     private javax.swing.JLabel lblPack;
     private javax.swing.JLabel lblQoh;
     private javax.swing.JLabel lblUnitPrice;
+    private javax.swing.JTable tblItem;
     private javax.swing.JTextField txtDes;
     private javax.swing.JTextField txtItemCode;
     private javax.swing.JTextField txtPack;
@@ -279,6 +283,28 @@ public class ItemVIew extends javax.swing.JFrame {
             
             String resp = itemController.save(itemDto);
             JOptionPane.showMessageDialog(this, resp);
+        } catch (Exception ex) {
+            Logger.getLogger(ItemVIew.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    private void loadTable() {
+        try {
+            String [] columns = {"Item Code", "Descrption", "Pack", "Unit Price", "QOH"};
+            DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            tblItem.setModel(dtm);
+            
+            List<ItemDto> itemDtos = itemController.getAll();
+            for (ItemDto itemDto : itemDtos) {
+                Object[] rowData = {itemDto.getItemCode(), itemDto.getDescription(), itemDto.getPack(), itemDto.getUntPrice(), itemDto.getQoh()};
+                dtm.addRow(rowData);
+            }
         } catch (Exception ex) {
             Logger.getLogger(ItemVIew.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
