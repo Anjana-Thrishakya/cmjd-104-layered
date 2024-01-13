@@ -4,12 +4,14 @@
  */
 package edu.ijse.layered;
 
+import edu.ijse.layered.view.ItemVIew;
+
 /**
  *
  * @author anjanathrishakya
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World");
+        new ItemVIew().setVisible(true);
     }
 }

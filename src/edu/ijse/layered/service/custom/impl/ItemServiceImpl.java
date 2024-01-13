@@ -4,6 +4,8 @@
  */
 package edu.ijse.layered.service.custom.impl;
 
+import edu.ijse.layered.dao.DaoFactory;
+import edu.ijse.layered.dao.custom.ItemDao;
 import edu.ijse.layered.dto.ItemDto;
 import edu.ijse.layered.entity.ItemEntity;
 import edu.ijse.layered.service.custom.ItemService;
@@ -14,13 +16,18 @@ import java.util.List;
  * @author anjanathrishakya
  */
 public class ItemServiceImpl implements ItemService{
+    
+    private ItemDao itemDao = (ItemDao) DaoFactory.getInstance().getDao(DaoFactory.DaoTypes.ITEM);
 
     @Override
     public String saveItem(ItemDto dto) throws Exception {
         ItemEntity itemEntity = new ItemEntity(dto.getItemCode(), dto.getDescription(), 
                 dto.getPack(), dto.getUntPrice(), dto.getQoh());
-        
-        return null;
+        if(itemDao.add(itemEntity)){
+            return "Successfully Saved";
+        } else{
+            return "Fail";
+        }
     }
 
     @Override

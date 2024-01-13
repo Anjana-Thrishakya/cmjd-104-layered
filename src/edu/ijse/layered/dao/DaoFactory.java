@@ -4,6 +4,8 @@
  */
 package edu.ijse.layered.dao;
 
+import edu.ijse.layered.dao.custom.impl.ItemDaoImpl;
+
 /**
  *
  * @author anjanathrishakya
@@ -20,10 +22,10 @@ public class DaoFactory {
         return daoFactory;
     }
     
-    public SuperDao grtDao(DaoTypes type){
+    public SuperDao getDao(DaoTypes type){
         switch (type) {
             case ITEM:
-               
+                return new ItemDaoImpl();
             default:
                 return null;
         }
