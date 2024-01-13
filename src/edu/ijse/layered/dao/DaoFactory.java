@@ -20,7 +20,7 @@ public class DaoFactory {
         return daoFactory;
     }
     
-    public SuderDao grtDao(DaoTypes type){
+    public SuperDao grtDao(DaoTypes type){
         switch (type) {
             case ITEM:
                

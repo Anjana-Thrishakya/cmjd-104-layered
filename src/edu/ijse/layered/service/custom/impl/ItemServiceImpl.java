@@ -5,6 +5,7 @@
 package edu.ijse.layered.service.custom.impl;
 
 import edu.ijse.layered.dto.ItemDto;
+import edu.ijse.layered.entity.ItemEntity;
 import edu.ijse.layered.service.custom.ItemService;
 import java.util.List;
 
@@ -15,7 +16,10 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService{
 
     @Override
-    public String saveItem(ItemDto itemDto) throws Exception {
+    public String saveItem(ItemDto dto) throws Exception {
+        ItemEntity itemEntity = new ItemEntity(dto.getItemCode(), dto.getDescription(), 
+                dto.getPack(), dto.getUntPrice(), dto.getQoh());
+        
         return null;
     }
 

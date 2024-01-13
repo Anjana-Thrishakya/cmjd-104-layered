@@ -4,10 +4,13 @@
  */
 package edu.ijse.layered.dao.custom;
 
+import edu.ijse.layered.dao.CrudDao;
+import edu.ijse.layered.entity.ItemEntity;
+
 /**
  *
  * @author anjanathrishakya
  */
-public interface ItemDao {
+public interface ItemDao extends CrudDao<ItemEntity, String>{
     
 }

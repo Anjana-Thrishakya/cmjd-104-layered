@@ -8,6 +8,6 @@ package edu.ijse.layered.dao;
  *
  * @author anjanathrishakya
  */
-public interface SuderDao {
+public interface SuperDao {
     
 }
