@@ -9,6 +9,7 @@ import edu.ijse.layered.dao.custom.ItemDao;
 import edu.ijse.layered.dto.ItemDto;
 import edu.ijse.layered.entity.ItemEntity;
 import edu.ijse.layered.service.custom.ItemService;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,24 +33,49 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public String UpdateItem(ItemDto itemDto) throws Exception {
-        return null;
+        ItemEntity itemEntity = new ItemEntity(itemDto.getItemCode(), itemDto.getDescription(), 
+                itemDto.getPack(), itemDto.getUntPrice(), itemDto.getQoh());
+        if(itemDao.update(itemEntity)){
+            return "Successfully Updated";
+        } else{
+            return "Fail";
+        }
 
     }
 
     @Override
     public String deleteItem(String itemCode) throws Exception {
-
-        return null;
+        if(itemDao.delete(itemCode)){
+           return "Successfully Deleted";
+        } else{
+            return "Fail";
+        }
     }
 
     @Override
     public ItemDto getItem(String itemCode) throws Exception {
-        return null;
+        ItemEntity itemEntity = itemDao.get(itemCode);
+        return new ItemDto(itemEntity.getItemCode(),
+                itemEntity.getDescription(),
+                itemEntity.getPack(),
+                itemEntity.getUnitPrice(),
+                itemEntity.getQoh());
     }
 
     @Override
     public List<ItemDto> getAll() throws Exception {
-        return null;
+        ArrayList<ItemEntity> itemEntities = itemDao.getAll();
+        
+        List<ItemDto> itemDtos = new ArrayList<>();
+        
+        for (ItemEntity itemEntity : itemEntities) {
+            itemDtos.add(new ItemDto(itemEntity.getItemCode(),
+                itemEntity.getDescription(),
+                itemEntity.getPack(),
+                itemEntity.getUnitPrice(),
+                itemEntity.getQoh()));
+        }
+        return itemDtos;
     }
     
 }
