@@ -6,10 +6,14 @@ package edu.ijse.layered.view;
 
 import edu.ijse.layered.controller.CustomerController;
 import edu.ijse.layered.controller.ItemController;
+import edu.ijse.layered.controller.OrderController;
 import edu.ijse.layered.dto.CustomerDto;
 import edu.ijse.layered.dto.ItemDto;
 import edu.ijse.layered.dto.OrderDetailDto;
+import edu.ijse.layered.dto.OrderDto;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +29,7 @@ public class OrderView extends javax.swing.JFrame {
     private ItemController itemController;
     private List<OrderDetailDto> orderDetailDtos = new ArrayList<>();
     private CustomerController customerController;
+    private OrderController orderController;
 
     /**
      * Creates new form OrderView
@@ -32,6 +37,7 @@ public class OrderView extends javax.swing.JFrame {
     public OrderView() {
         itemController = new ItemController();
         customerController = new CustomerController();
+        orderController = new OrderController();
         initComponents();
         loadTable();
     }
@@ -332,11 +338,22 @@ public class OrderView extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error");
             Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     private void placeOrder(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        OrderDto dto = new OrderDto(txtOrderId.getText(), txtCustId.getText(), 
+                sdf.format(new Date()), orderDetailDtos);
+        try {
+            String resp = orderController.placeOrder(dto);
+            JOptionPane.showMessageDialog(this, resp);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error");
+        }
         
     }
     
@@ -351,6 +368,7 @@ public class OrderView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Item Not Found");
             }
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error");
             Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
