@@ -17,7 +17,7 @@ public class OrderDetaiDaoImpl implements OrderDetailDao {
 
     @Override
     public boolean add(OrderDetailEntity t) throws Exception {
-       return CrudUtil.executeUpdate("INSERT INTO OrderDetai VALUES(?,?,?,?)", t.getOrderId(), t.getItemId(), t.getQty(), t.getDiscount());
+       return CrudUtil.executeUpdate("INSERT INTO OrderDetail VALUES(?,?,?,?)", t.getOrderId(), t.getItemId(), t.getQty(), t.getDiscount());
     }
 
     @Override
