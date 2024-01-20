@@ -4,6 +4,7 @@
  */
 package edu.ijse.layered.dao;
 
+import edu.ijse.layered.dao.custom.impl.CustomerDaoImpl;
 import edu.ijse.layered.dao.custom.impl.ItemDaoImpl;
 import edu.ijse.layered.dao.custom.impl.OrderDaoImpl;
 import edu.ijse.layered.dao.custom.impl.OrderDetaiDaoImpl;
@@ -34,12 +35,14 @@ public class DaoFactory {
                 return new OrderDaoImpl();
             case ORDER_DETAIL:
                 return new OrderDetaiDaoImpl();
+            case CUSTOMER:
+                return new CustomerDaoImpl();
             default:
                 return null;
         }
     }
 
     public enum DaoTypes {
-        ITEM, ORDER, ORDER_DETAIL
+        ITEM, ORDER, ORDER_DETAIL, CUSTOMER
     }
 }

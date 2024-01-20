@@ -4,7 +4,9 @@
  */
 package edu.ijse.layered.view;
 
+import edu.ijse.layered.controller.CustomerController;
 import edu.ijse.layered.controller.ItemController;
+import edu.ijse.layered.dto.CustomerDto;
 import edu.ijse.layered.dto.ItemDto;
 import edu.ijse.layered.dto.OrderDetailDto;
 import java.util.ArrayList;
@@ -22,12 +24,14 @@ public class OrderView extends javax.swing.JFrame {
     
     private ItemController itemController;
     private List<OrderDetailDto> orderDetailDtos = new ArrayList<>();
+    private CustomerController customerController;
 
     /**
      * Creates new form OrderView
      */
     public OrderView() {
         itemController = new ItemController();
+        customerController = new CustomerController();
         initComponents();
         loadTable();
     }
@@ -317,7 +321,19 @@ public class OrderView extends javax.swing.JFrame {
     }
     
     private void searchCustomer(){
-        
+        try {
+            String custId = txtCustId.getText();
+            CustomerDto customerDto = customerController.searchCustomer(custId);
+
+            if (customerDto != null) {
+                lblCustData.setText(customerDto.getTitle() + " " + customerDto.getName());
+            } else {
+                JOptionPane.showMessageDialog(this, "Customer Not Found");
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void placeOrder(){
