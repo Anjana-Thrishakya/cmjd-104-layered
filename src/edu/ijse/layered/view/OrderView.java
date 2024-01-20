@@ -6,6 +6,9 @@ package edu.ijse.layered.view;
 
 import edu.ijse.layered.controller.ItemController;
 import edu.ijse.layered.dto.ItemDto;
+import edu.ijse.layered.dto.OrderDetailDto;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -18,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class OrderView extends javax.swing.JFrame {
     
     private ItemController itemController;
+    private List<OrderDetailDto> orderDetailDtos = new ArrayList<>();
 
     /**
      * Creates new form OrderView
@@ -291,7 +295,25 @@ public class OrderView extends javax.swing.JFrame {
     private javax.swing.JTextField txtQty;
     // End of variables declaration//GEN-END:variables
     private void addToTable() {
+        OrderDetailDto orderDetailDto = new OrderDetailDto();
+        orderDetailDto.setItemId(txtItemId.getText());
+        orderDetailDto.setQty(Integer.parseInt(txtQty.getText()));
+        orderDetailDto.setDiscount(Double.parseDouble(txtDiscount.getText()));
+        
+        orderDetailDtos.add(orderDetailDto);
+        
+        Object[] rowData = {orderDetailDto.getItemId(), orderDetailDto.getQty(), orderDetailDto.getDiscount()};
 
+        DefaultTableModel dtm = (DefaultTableModel) tblItem.getModel();
+        dtm.addRow(rowData);
+        clearItemData();
+    }
+    
+    private void clearItemData(){
+        txtItemId.setText("");
+        txtQty.setText("");
+        txtDiscount.setText("");
+        lblItemData.setText("");
     }
     
     private void searchCustomer(){
